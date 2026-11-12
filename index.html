@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>👥 銀礦灣營 · 每日返工人員查詢</title>
+    <style>
+        :root {
+            --bg-base: #0B1120;
+            --bg-card: #151D2E;
+            --bg-card-alt: #1A2338;
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --primary: #38BDF8;
+            --primary-glow: rgba(56, 189, 248, 0.25);
+            --accent-green: #4ADE80;
+            --accent-green-glow: rgba(74, 222, 128, 0.25);
+            --accent-gold: #FBBF24;
+            --accent-gold-glow: rgba(251, 191, 36, 0.2);
+            --accent-purple: #C084FC;
+            --accent-rose: #FB7185;
+            --text-main: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --text-muted: #64748B;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-medium: rgba(255, 255, 255, 0.10);
+            --border-glow: rgba(56, 189, 248, 0.35);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 22px;
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 20px var(--primary-glow);
+            --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans HK", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: var(--bg-base);
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(192, 132, 252, 0.04) 0%, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 12px 60px;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        /* ========== Header ========== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 2px 2px;
+        }
+        .header-left h2 {
+            font-size: 21px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+        .header-left p {
+            margin-top: 3px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.3px;
+            opacity: 0.85;
+        }
+        .today-jump-btn {
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: var(--primary);
+            padding: 8px 14px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+            letter-spacing: 0.2px;
+        }
+        .today-jump-btn:hover {
+            background: rgba(56, 189, 248, 0.22);
+            border-color: rgba(56, 189, 248, 0.55);
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+        }
+        .today-jump-btn:active {
+            transform: scale(0.95);
+            background: rgba(56, 189, 248, 0.3);
+        }
+        /* ========== Staff Filter Bar ========== */
+        .staff-filter-bar {
+            display: flex;
+            gap: 7px;
+            overflow-x: auto;
+            padding: 2px 0 6px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .staff-filter-bar::-webkit-scrollbar { display: none; }
+        .staff-chip {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-medium);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 22px;
+            font-size: 11.5px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            letter-spacing: 0.2px;
+        }
+        .staff-chip:hover {
+            border-color: rgba(255, 255, 255, 0.22);
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .staff-chip.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(56, 189, 248, 0.12));
+            color: #fff;
+            border-color: var(--primary);
+            font-weight: 900;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.3px;
+        }
+        /* ========== Calendar Card ========== */
+        .calendar-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 14px 10px 12px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .cal-legend {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 6px 10px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .cal-legend > span:first-child {
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        .legend-items {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-weight: 600;
+        }
+        .dot-me {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 6px var(--accent-green-glow);
+            margin-right: 4px;
+        }
+        .legend-items span {
+            display: flex;
+            align-items: center;
+        }
+        .weekdays-row {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 5px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-muted);
+            padding-bottom: 8px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--border-subtle);
+            letter-spacing: 0.3px;
+        }
+        .weekdays-row div:first-child { color: var(--accent-rose); }
+        .weekdays-row div:last-child { color: var(--primary); }
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 5px;
+        }
+        .day-btn {
+            height: 56px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 2px 7px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-fast);
+            overflow: hidden;
+        }
+        .day-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .day-btn:hover::before {
+            opacity: 1;
+        }
+        .day-btn:hover {
+            border-color: var(--border-medium);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
+        }
+        .day-btn:active {
+            transform: scale(0.94);
+            transition: transform 0.1s;
+        }
+        .day-btn.selected {
+            background: rgba(56, 189, 248, 0.18) !important;
+            border: 2px solid var(--primary) !important;
+            box-shadow: 0 0 18px var(--primary-glow), 0 0 40px rgba(56, 189, 248, 0.08);
+            transform: translateY(-2px);
+            z-index: 2;
+        }
+        .day-btn.selected::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: var(--radius-md);
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, var(--primary), transparent 60%) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .day-btn.dimmed {
+            opacity: 0.18;
+            pointer-events: none;
+        }
+        .day-btn.staff-match {
+            background: rgba(74, 222, 128, 0.1);
+            border-color: rgba(74, 222, 128, 0.35);
+        }
+        .day-btn.staff-match:hover {
+            background: rgba(74, 222, 128, 0.18);
+            border-color: rgba(74, 222, 128, 0.55);
+        }
+        .d-num {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1;
+            letter-spacing: -0.2px;
+            margin-top: 2px;
+        }
+        .day-btn.today .d-num {
+            color: var(--accent-gold);
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+        }
+        .day-btn.today {
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+        .d-count {
+            font-size: 9.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 2px 7px;
+            border-radius: 8px;
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+        }
+        .me-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 6px var(--accent-green-glow);
+        }
+        .me-night-indicator {
+            position: absolute;
+            top: 3px;
+            right: 4px;
+            font-size: 9px;
+            line-height: 1;
+        }
+        /* ========== Detail Card ========== */
+        .detail-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 18px 16px 20px;
+            border: 1px solid var(--border-medium);
+            box-shadow: var(--shadow-card), 0 0 0 1px rgba(56, 189, 248, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .detail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent-purple), transparent);
+            opacity: 0.6;
+        }
+        .detail-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .nav-day-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-medium);
+            color: var(--text-secondary);
+            padding: 9px 14px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            letter-spacing: 0.2px;
+        }
+        .nav-day-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #fff;
+        }
+        .nav-day-btn:active {
+            transform: scale(0.94);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .detail-date-title {
+            text-align: center;
+        }
+        .detail-date-title h3 {
+            font-size: 21px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
+        }
+        .detail-date-title span {
+            font-size: 11.5px;
+            color: var(--primary);
+            font-weight: 700;
+            opacity: 0.8;
+        }
+        /* ========== Info Boxes ========== */
+        .info-boxes {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 10px;
+        }
+        .info-panel {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: var(--transition-smooth);
+        }
+        .info-panel:hover {
+            border-color: var(--border-medium);
+            background: rgba(0, 0, 0, 0.32);
+        }
+        .info-panel.night-panel {
+            border-color: rgba(251, 191, 36, 0.2);
+            background: rgba(251, 191, 36, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .info-panel.night-panel::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .info-label {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .info-value {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+        }
+        .night-panel .info-value {
+            color: var(--accent-gold);
+            font-size: 14px;
+            font-weight: 900;
+        }
+        /* ========== Staff List ========== */
+        .staff-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .staff-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .staff-row {
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 14px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        .staff-row:hover {
+            border-color: var(--border-medium);
+            background: rgba(0, 0, 0, 0.38);
+            transform: translateX(2px);
+        }
+        .staff-row.is-me {
+            background: rgba(74, 222, 128, 0.07);
+            border-color: rgba(74, 222, 128, 0.35);
+            border-left: 4px solid var(--accent-green);
+        }
+        .staff-row.is-me:hover {
+            background: rgba(74, 222, 128, 0.11);
+            border-color: rgba(74, 222, 128, 0.5);
+        }
+        .staff-row.is-overnight {
+            border-left: 4px solid var(--accent-gold);
+        }
+        .staff-row.is-me.is-overnight {
+            border-left: 4px solid var(--accent-gold);
+            background: rgba(251, 191, 36, 0.06);
+        }
+        .staff-row-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .staff-name-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+        .avatar-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0B1120;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .staff-name {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: -0.2px;
+        }
+        .badge-tag {
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 7px;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+        .badge-me {
+            background: var(--accent-green);
+            color: #0B1120;
+        }
+        .badge-night {
+            background: rgba(251, 191, 36, 0.18);
+            color: var(--accent-gold);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        .badge-shift {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+        .staff-time {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--primary);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .staff-row.is-me .staff-time {
+            color: var(--accent-green);
+        }
+        .staff-row.is-overnight .staff-time {
+            color: var(--accent-gold);
+        }
+        /* ========== Timeline ========== */
+        .timeline-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .timeline-track {
+            width: 100%;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .timeline-bar {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary), #7DD3FC);
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .timeline-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2.5s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .staff-row.is-me .timeline-bar {
+            background: linear-gradient(90deg, var(--accent-green), #86EFAC);
+            box-shadow: 0 0 10px var(--accent-green-glow);
+        }
+        .staff-row.is-overnight .timeline-bar {
+            background: linear-gradient(90deg, var(--primary), var(--accent-gold));
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+        }
+        .timeline-scale {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.2);
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 頂部標題 -->
+    <div class="header">
+        <div class="header-left">
+            <h2>👥 銀礦灣營 · 每日返工名單</h2>
+            <p>2026年11月 (一撳日期即睇邊個返工)</p>
+        </div>
+        <button class="today-jump-btn" onclick="jumpToToday()">📍 跳去今日</button>
+    </div>
+    <!-- 按同事篩選橫條 -->
+    <div class="staff-filter-bar" id="staffFilterBar"></div>
+    <!-- 11月互動月曆 -->
+    <div class="calendar-card">
+        <div class="cal-legend">
+            <span id="filterHintText">👆 點擊任何一日查看當日返工同工</span>
+            <div class="legend-items">
+                <span><i class="dot-me"></i>你有返工</span>
+                <span>🌙 你值夜</span>
+            </div>
+        </div>
+        <div class="weekdays-row">
+            <div>日</div>
+            <div>一</div>
+            <div>二</div>
+            <div>三</div>
+            <div>四</div>
+            <div>五</div>
+            <div>六</div>
+        </div>
+        <div class="days-grid" id="daysGrid"></div>
+    </div>
+    <!-- 當日返工詳情看板 -->
+    <div class="detail-card" id="detailCard">
+        <div class="detail-nav-header">
+            <button class="nav-day-btn" onclick="stepDay(-1)">◀️ 前一日</button>
+            <div class="detail-date-title">
+                <h3 id="detailDateText">11月1日 (星期日)</h3>
+                <span id="detailCountSubtitle">共 4 位同工返工</span>
+            </div>
+            <button class="nav-day-btn" onclick="stepDay(1)">後一日 ▶️</button>
+        </div>
+        <!-- 營友動態與當晚值夜 -->
+        <div class="info-boxes">
+            <div class="info-panel">
+                <span class="info-label">⛺ 營友動態</span>
+                <div class="info-value" id="campActivityText">--</div>
+            </div>
+            <div class="info-panel night-panel">
+                <span class="info-label">🌙 值夜 (22:00-08:00)</span>
+                <div class="info-value" id="overnightStaffText">--</div>
+            </div>
+        </div>
+        <!-- 返工同工時間列表 -->
+        <div class="staff-list-header">
+            <span>🕒 返工同工及確切時間 (按返工時間排序)</span>
+            <span>08:00 — 00:00</span>
+        </div>
+        <div class="staff-list" id="staffListContainer"></div>
+    </div>
+</div>
+<script>
+    // 同事專屬配色
+    const STAFF_COLORS = {
+        "陳鎵榮": "#4ADE80",
+        "楊世明": "#38BDF8",
+        "徐妤霖": "#F472B6",
+        "陳浩賓": "#60A5FA",
+        "梁穎琳": "#C084FC",
+        "伍嘉賢": "#FBBF24",
+        "楊卓岐": "#FB923C"
+    };
+    const ALL_STAFF = ["全部", "陳鎵榮", "楊世明", "徐妤霖", "陳浩賓", "梁穎琳", "伍嘉賢", "楊卓岐"];
+    // 2026年11月 銀礦灣營每日返工人員及詳細時間表 100% 完整資料庫
+    const SCHEDULE_NOV_2026 = {
+        1: {
+            dow: "日",
+            camp: "出: 130+16+12 ｜ 日營: 40人",
+            overnight: [],
+            staff: [
+                { name: "楊世明", time: "08:00-14:00", stay: false },
+                { name: "徐妤霖", time: "08:00-16:00", stay: false },
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+            ]
+        },
+        2: {
+            dow: "一",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "陳浩賓", time: "10:00-18:00", stay: false }
+            ]
+        },
+        3: {
+            dow: "二",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "楊世明", time: "09:00-17:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+            ]
+        },
+        4: {
+            dow: "三",
+            camp: "入: 84+96 ｜ 日營: 60+100",
+            overnight: ["楊卓岐", "梁穎琳"],
+            staff: [
+                { name: "楊世明", time: "09:00-17:00", stay: false },
+                { name: "梁穎琳", time: "09:00-00:00", stay: true },
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                { name: "楊卓岐", time: "10:00-00:00", stay: true },
+                { name: "陳鎵榮", time: "10:00-22:00", stay: false }
+            ]
+        },
+        5: {
+            dow: "四",
+            camp: "留營: 84+96",
+            overnight: ["楊卓岐", "楊世明"],
+            staff: [
+                { name: "楊卓岐", time: "08:00-00:00", stay: true },
+                { name: "楊世明", time: "08:00-00:00", stay: true },
+                { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+            ]
+        },
+        6: {
+            dow: "五",
+            camp: "出: 84+96 ｜ 入營: 180人",
+            overnight: ["徐妤霖", "梁穎琳"],
+            staff: [
+                { name: "楊卓岐", time: "08:00-14:00", stay: false },
+                { name: "楊世明", time: "08:00-18:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                { name: "陳浩賓", time: "10:00-22:00", stay: false },
+                { name: "徐妤霖", time: "10:00-00:00", stay: true },
+                { name: "梁穎琳", time: "14:00-00:00", stay: true }
+            ]
+        },
+        7: {
+            dow: "六",
+            camp: "出: 180 ｜ 日: 40 ｜ 入營: 66+48",
+            overnight: ["徐妤霖", "梁穎琳"],
+            staff: [
+                { name: "徐妤霖", time: "08:00-00:00", stay: true },
+                { name: "梁穎琳", time: "08:00-00:00", stay: true },
+                { name: "陳浩賓", time: "10:00-22:00", stay: false }
+            ]
+        },
+        8: {
+            dow: "日",
+            camp: "出: 66+48 ｜ 入營: 180人",
+            overnight: ["伍嘉賢", "楊卓岐"],
+            staff: [
+                { name: "徐妤霖", time: "08:00-14:00", stay: false },
+                { name: "梁穎琳", time: "08:00-16:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-00:00", stay: true },
+                { name: "楊卓岐", time: "10:00-00:00", stay: true },
+                { name: "楊世明", time: "10:00-18:00", stay: false },
+                { name: "陳浩賓", time: "10:00-22:00", stay: false },
+                { name: "陳鎵榮", time: "14:00-22:00", stay: false }
+            ]
+        },
+        9: {
+            dow: "一",
+            camp: "留營: 180人",
+            overnight: ["伍嘉賢", "楊卓岐"],
+            staff: [
+                { name: "伍嘉賢", time: "08:00-00:00", stay: true },
+                { name: "楊卓岐", time: "08:00-00:00", stay: true },
+                { name: "陳浩賓", time: "10:00-22:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+            ]
+        },
+        10: {
+            dow: "二",
+            camp: "出: 180 ｜ 日: 50 ｜ 入營: 116人",
+            overnight: ["伍嘉賢", "梁穎琳"],
+            staff: [
+                { name: "伍嘉賢", time: "08:00-00:00", stay: true },
+                { name: "楊卓岐", time: "08:00-14:00", stay: false },
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                { name: "梁穎琳", time: "14:00-00:00", stay: true }
+            ]
+        },
+        11: {
+            dow: "三",
+            camp: "留營: 116人",
+            overnight: ["楊世明", "陳浩賓"],
+            staff: [
+                { name: "伍嘉賢", time: "08:00-14:00", stay: false },
+                { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                { name: "楊世明", time: "10:00-00:00", stay: true },
+                { name: "陳鎵榮", time: "10:00-22:00", stay: false },
+                { name: "陳浩賓", time: "14:00-00:00", stay: true }
+            ]
+        },
+        12: {
+            dow: "四",
+            camp: "出: 116 ｜ 入營: 32+8",
+            overnight: ["楊世明", "徐妤霖"],
+            staff: [
+                { name: "楊世明", time: "08:00-00:00", stay: true },
+                { name: "陳浩賓", time: "08:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-18:00", stay: false },
+                { name: "徐妤霖", time: "14:00-00:00", stay: true }
+            ]
+        },
+        13: {
+            dow: "五",
+            camp: "出: 32 ｜ 留: 8 ｜ 日: 40 ｜ 入: 60",
+            overnight: ["徐妤霖"],
+            staff: [
+                { name: "楊世明", time: "08:00-18:00", stay: false },
+                { name: "徐妤霖", time: "08:00-00:00", stay: true },
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false }
+            ]
+        },
+        14: {
+            dow: "六",
+            camp: "出: 60+8 ｜ 日營: 40人",
+            overnight: ["梁穎琳"],
+            staff: [
+                { name: "徐妤霖", time: "08:00-20:00", stay: false },
+                { name: "伍嘉賢", time: "09:00-14:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-22:00", stay: false },
+                { name: "梁穎琳", time: "18:00-00:00", stay: true }
+            ]
+        },
+        15: {
+            dow: "日",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                { name: "伍嘉賢", time: "09:00-16:00", stay: false },
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+            ]
+        },
+        16: {
+            dow: "一",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "楊世明", time: "09:00-17:00", stay: false },
+                { name: "陳浩賓", time: "10:00-18:00", stay: false }
+            ]
+        },
+        17: {
+            dow: "二",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                { name: "伍嘉賢", time: "14:00-18:00", stay: false }
+            ]
+        },
+        18: {
+            dow: "三",
+            camp: "入營: 134人",
+            overnight: ["徐妤霖", "陳浩賓"],
+            staff: [
+                { name: "徐妤霖", time: "10:00-00:00", stay: true },
+                { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                { name: "陳浩賓", time: "14:00-00:00", stay: true }
+            ]
+        },
+        19: {
+            dow: "四",
+            camp: "留營: 134人",
+            overnight: ["楊卓岐", "陳鎵榮"],
+            staff: [
+                { name: "陳浩賓", time: "08:00-14:00", stay: false },
+                { name: "徐妤霖", time: "08:00-14:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-14:00", stay: false },
+                { name: "楊卓岐", time: "10:00-00:00", stay: true },
+                { name: "陳鎵榮", time: "10:00-00:00", stay: true }
+            ]
+        },
+        20: {
+            dow: "五",
+            camp: "出: 134 ｜ 入營: 144人",
+            overnight: ["梁穎琳", "楊世明"],
+            staff: [
+                { name: "楊卓岐", time: "08:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "08:00-22:00", stay: false },
+                { name: "梁穎琳", time: "10:00-00:00", stay: true },
+                { name: "楊世明", time: "14:00-00:00", stay: true }
+            ]
+        },
+        21: {
+            dow: "六",
+            camp: "出: 144 ｜ 日: 40+20 ｜ 入: 30+12人",
+            overnight: ["楊世明", "楊卓岐"],
+            staff: [
+                { name: "楊世明", time: "08:00-00:00", stay: true },
+                { name: "梁穎琳", time: "08:00-22:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-22:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-22:00", stay: false },
+                { name: "楊卓岐", time: "14:00-00:00", stay: true }
+            ]
+        },
+        22: {
+            dow: "日",
+            camp: "出: 30+12 ｜ 日營: 40人",
+            overnight: [],
+            staff: [
+                { name: "楊卓岐", time: "08:00-14:00", stay: false },
+                { name: "楊世明", time: "08:00-18:00", stay: false },
+                { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-16:00", stay: false }
+            ]
+        },
+        23: {
+            dow: "一",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "楊世明", time: "09:00-17:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+            ]
+        },
+        24: {
+            dow: "二",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "徐妤霖", time: "10:00-18:00", stay: false }
+            ]
+        },
+        25: {
+            dow: "三",
+            camp: "入營: 35+21人",
+            overnight: ["徐妤霖"],
+            staff: [
+                { name: "伍嘉賢", time: "09:00-17:00", stay: false },
+                { name: "楊卓岐", time: "10:00-22:00", stay: false },
+                { name: "楊世明", time: "10:00-22:00", stay: false },
+                { name: "徐妤霖", time: "10:00-00:00", stay: true },
+                { name: "梁穎琳", time: "10:00-22:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-22:00", stay: false }
+            ]
+        },
+        26: {
+            dow: "四",
+            camp: "留營: 35+21人",
+            overnight: ["陳浩賓", "梁穎琳"],
+            staff: [
+                { name: "楊卓岐", time: "08:00-00:00", stay: false },
+                { name: "徐妤霖", time: "08:00-16:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                { name: "楊世明", time: "10:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-16:00", stay: false },
+                { name: "陳浩賓", time: "14:00-00:00", stay: true },
+                { name: "梁穎琳", time: "14:00-00:00", stay: true }
+            ]
+        },
+        27: {
+            dow: "五",
+            camp: "出: 35+21 ｜ 入營: 40人",
+            overnight: ["徐妤霖"],
+            staff: [
+                { name: "楊卓岐", time: "08:00-14:00", stay: false },
+                { name: "陳浩賓", time: "08:00-18:00", stay: false },
+                { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-14:00", stay: false },
+                { name: "徐妤霖", time: "14:00-00:00", stay: true }
+            ]
+        },
+        28: {
+            dow: "六",
+            camp: "出: 40 ｜ 日: 30 ｜ 入: 50+42+80+7",
+            overnight: ["陳鎵榮", "梁穎琳"],
+            staff: [
+                { name: "徐妤霖", time: "08:00-18:00", stay: false },
+                { name: "陳鎵榮", time: "10:00-00:00", stay: true },
+                { name: "梁穎琳", time: "14:00-00:00", stay: true }
+            ]
+        },
+        29: {
+            dow: "日",
+            camp: "出營: 50+42+80+7",
+            overnight: [],
+            staff: [
+                { name: "楊卓岐", time: "08:00-17:00", stay: false },
+                { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                { name: "陳鎵榮", time: "08:00-14:00", stay: false },
+                { name: "伍嘉賢", time: "10:00-18:00", stay: false }
+            ]
+        },
+        30: {
+            dow: "一",
+            camp: "營期空檔",
+            overnight: [],
+            staff: [
+                { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                { name: "梁穎琳", time: "10:00-18:00", stay: false }
+            ]
+        }
+    };
+    let selectedDay = 8; // 預設今日
+    let selectedStaffFilter = "全部";
+    window.onload = () => {
+        const now = new Date();
+        if (now.getMonth() === 10) { // 11月 (0-indexed = 10)
+            selectedDay = now.getDate();
+        } else {
+            selectedDay = 1;
+        }
+        renderStaffFilterBar();
+        renderCalendar();
+        renderDayDetails();
+    };
+    function jumpToToday() {
+        const now = new Date();
+        selectedDay = (now.getMonth() === 10) ? now.getDate() : 8;
+        renderCalendar();
+        renderDayDetails();
+    }
+    function stepDay(delta) {
+        selectedDay += delta;
+        if (selectedDay < 1) selectedDay = 30;
+        if (selectedDay > 30) selectedDay = 1;
+        renderCalendar();
+        renderDayDetails();
+    }
+    function renderStaffFilterBar() {
+        const bar = document.getElementById('staffFilterBar');
+        bar.innerHTML = '';
+        ALL_STAFF.forEach(name => {
+            const chip = document.createElement('button');
+            chip.className = `staff-chip ${selectedStaffFilter === name ? 'active' : ''}`;
+            // 計算該同事全月返工日數
+            if (name === "全部") {
+                chip.innerText = "👥 全部同工";
+            } else {
+                let count = 0;
+                for (let d = 1; d <= 30; d++) {
+                    if (SCHEDULE_NOV_2026[d].staff.some(s => s.name === name)) count++;
+                }
+                chip.innerText = `${name === '陳鎵榮' ? '⭐ ' : ''}${name} (${count}日)`;
+            }
+            chip.onclick = () => {
+                selectedStaffFilter = name;
+                renderStaffFilterBar();
+                renderCalendar();
+                renderDayDetails();
+            };
+            bar.appendChild(chip);
+        });
+    }
+    function renderCalendar() {
+        const grid = document.getElementById('daysGrid');
+        grid.innerHTML = '';
+        // 2026年11月1日係星期日 (firstDay = 0)
+        const now = new Date();
+        const todayNum = (now.getMonth() === 10) ? now.getDate() : -1;
+        for (let d = 1; d <= 30; d++) {
+            const data = SCHEDULE_NOV_2026[d];
+            const btn = document.createElement('button');
+            const isSelected = (d === selectedDay);
+            const isToday = (d === todayNum);
+            const meWorking = data.staff.some(s => s.name === "陳鎵榮");
+            const meOvernight = data.overnight.includes("陳鎵榮");
+            let filterClass = '';
+            if (selectedStaffFilter !== "全部") {
+                const match = data.staff.some(s => s.name === selectedStaffFilter);
+                filterClass = match ? 'staff-match' : 'dimmed';
+            }
+            btn.className = `day-btn ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${filterClass}`;
+            let indicatorHtml = '';
+            if (meOvernight) {
+                indicatorHtml = `<span class="me-night-indicator">🌙</span>`;
+            } else if (meWorking) {
+                indicatorHtml = `<span class="me-indicator"></span>`;
+            }
+            btn.innerHTML = `
+                ${indicatorHtml}
+                <span class="d-num">${d}</span>
+                <span class="d-count">${data.staff.length}人</span>
+            `;
+            btn.onclick = () => {
+                selectedDay = d;
+                renderCalendar();
+                renderDayDetails();
+            };
+            grid.appendChild(btn);
+        }
+    }
+    // 計算時間軸位置 (以 08:00 為 0%，24:00 為 100%，共 16 小時)
+    function calcTimelinePos(timeRange) {
+        const [startStr, endStr] = timeRange.split('-');
+        const toHour = (str) => {
+            const [h, m] = str.split(':').map(Number);
+            return h + (m / 60);
+        };
+        let s = toHour(startStr);
+        let e = toHour(endStr);
+        if (e === 0) e = 24; // 00:00 視為 24:00
+        const leftPct = Math.max(0, ((s - 8) / 16) * 100);
+        const widthPct = Math.min(100 - leftPct, ((e - s) / 16) * 100);
+        return { leftPct, widthPct, hours: e - s };
+    }
+    function renderDayDetails() {
+        const data = SCHEDULE_NOV_2026[selectedDay];
+        document.getElementById('detailDateText').innerText = `11月${selectedDay}日 (星期${data.dow})`;
+        document.getElementById('detailCountSubtitle').innerText = `當日共 ${data.staff.length} 位同工返工`;
+        document.getElementById('campActivityText').innerText = data.camp;
+        document.getElementById('overnightStaffText').innerText =
+            data.overnight.length > 0 ? `🌙 ${data.overnight.join('、')}` : '— 無人值夜';
+        const listEl = document.getElementById('staffListContainer');
+        listEl.innerHTML = '';
+        data.staff.forEach(person => {
+            const isMe = (person.name === "陳鎵榮");
+            const isOvernight = person.stay || data.overnight.includes(person.name);
+            const { leftPct, widthPct, hours } = calcTimelinePos(person.time);
+            const row = document.createElement('div');
+            row.className = `staff-row ${isMe ? 'is-me' : ''} ${isOvernight ? 'is-overnight' : ''}`;
+            const color = STAFF_COLORS[person.name] || '#38BDF8';
+            let badgesHtml = '';
+            if (isMe) {
+                badgesHtml += `<span class="badge-tag badge-me">你本人</span>`;
+            }
+            if (isOvernight) {
+                badgesHtml += `<span class="badge-tag badge-night">🌙 值夜留宿</span>`;
+            } else {
+                badgesHtml += `<span class="badge-tag badge-shift">${hours}小時</span>`;
+            }
+            row.innerHTML = `
+                <div class="staff-row-top">
+                    <div class="staff-name-box">
+                        <div class="avatar-circle" style="background:${color};">
+                            ${person.name.slice(-1)}
+                        </div>
+                        <span class="staff-name">${person.name}</span>
+                        ${badgesHtml}
+                    </div>
+                    <div class="staff-time">${person.time}</div>
+                </div>
+                <div class="timeline-wrapper">
+                    <div class="timeline-track">
+                        <div class="timeline-bar" style="left:${leftPct}%; width:${widthPct}%;"></div>
+                    </div>
+                    <div class="timeline-scale">
+                        <span>08:00</span>
+                        <span>12:00</span>
+                        <span>16:00</span>
+                        <span>20:00</span>
+                        <span>00:00</span>
+                    </div>
+                </div>
+            `;
+            listEl.appendChild(row);
+        });
+    }
+</script>
+</body>
+</html>

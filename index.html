@@ -33,6 +33,7 @@
             --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -40,6 +41,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans HK", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
+
         body {
             background: var(--bg-base);
             background-image:
@@ -52,6 +54,7 @@
             align-items: center;
             padding: 16px 12px 60px;
         }
+
         .container {
             width: 100%;
             max-width: 500px;
@@ -59,6 +62,7 @@
             flex-direction: column;
             gap: 14px;
         }
+
         /* ========== Header ========== */
         .header {
             display: flex;
@@ -103,6 +107,7 @@
             transform: scale(0.95);
             background: rgba(56, 189, 248, 0.3);
         }
+
         /* ========== Staff Filter Bar ========== */
         .staff-filter-bar {
             display: flex;
@@ -113,6 +118,7 @@
             -webkit-overflow-scrolling: touch;
         }
         .staff-filter-bar::-webkit-scrollbar { display: none; }
+
         .staff-chip {
             background: var(--bg-glass);
             border: 1px solid var(--border-medium);
@@ -142,6 +148,7 @@
             box-shadow: 0 0 16px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             letter-spacing: 0.3px;
         }
+
         /* ========== Calendar Card ========== */
         .calendar-card {
             background: var(--bg-card);
@@ -183,6 +190,7 @@
             display: flex;
             align-items: center;
         }
+
         .weekdays-row {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -198,6 +206,7 @@
         }
         .weekdays-row div:first-child { color: var(--accent-rose); }
         .weekdays-row div:last-child { color: var(--primary); }
+
         .days-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -238,6 +247,7 @@
             transform: scale(0.94);
             transition: transform 0.1s;
         }
+
         .day-btn.selected {
             background: rgba(56, 189, 248, 0.18) !important;
             border: 2px solid var(--primary) !important;
@@ -262,6 +272,7 @@
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
+
         .day-btn.dimmed {
             opacity: 0.18;
             pointer-events: none;
@@ -274,6 +285,7 @@
             background: rgba(74, 222, 128, 0.18);
             border-color: rgba(74, 222, 128, 0.55);
         }
+
         .d-num {
             font-size: 13.5px;
             font-weight: 900;
@@ -289,6 +301,7 @@
         .day-btn.today {
             border-color: rgba(251, 191, 36, 0.3);
         }
+
         .d-count {
             font-size: 9.5px;
             color: var(--text-muted);
@@ -299,6 +312,7 @@
             white-space: nowrap;
             letter-spacing: 0.2px;
         }
+
         .me-indicator {
             position: absolute;
             top: 5px;
@@ -316,6 +330,7 @@
             font-size: 9px;
             line-height: 1;
         }
+
         /* ========== Detail Card ========== */
         .detail-card {
             background: var(--bg-card);
@@ -339,6 +354,7 @@
             background: linear-gradient(90deg, transparent, var(--primary), var(--accent-purple), transparent);
             opacity: 0.6;
         }
+
         .detail-nav-header {
             display: flex;
             justify-content: space-between;
@@ -367,6 +383,7 @@
             transform: scale(0.94);
             background: rgba(255, 255, 255, 0.15);
         }
+
         .detail-date-title {
             text-align: center;
         }
@@ -383,6 +400,7 @@
             font-weight: 700;
             opacity: 0.8;
         }
+
         /* ========== Info Boxes ========== */
         .info-boxes {
             display: grid;
@@ -439,6 +457,7 @@
             font-size: 14px;
             font-weight: 900;
         }
+
         /* ========== Staff List ========== */
         .staff-list-header {
             display: flex;
@@ -455,6 +474,7 @@
             flex-direction: column;
             gap: 10px;
         }
+
         .staff-row {
             background: rgba(0, 0, 0, 0.28);
             border: 1px solid var(--border-subtle);
@@ -488,6 +508,7 @@
             border-left: 4px solid var(--accent-gold);
             background: rgba(251, 191, 36, 0.06);
         }
+
         .staff-row-top {
             display: flex;
             justify-content: space-between;
@@ -541,6 +562,7 @@
             color: var(--text-muted);
             border: 1px solid var(--border-subtle);
         }
+
         .staff-time {
             font-size: 15px;
             font-weight: 900;
@@ -555,6 +577,7 @@
         .staff-row.is-overnight .staff-time {
             color: var(--accent-gold);
         }
+
         /* ========== Timeline ========== */
         .timeline-wrapper {
             display: flex;
@@ -562,25 +585,39 @@
             gap: 4px;
         }
         .timeline-track {
-            width: 100%;
-            height: 7px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        .timeline-bar {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            border-radius: 5px;
-            background: linear-gradient(90deg, var(--primary), #7DD3FC);
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
+    width: 100%;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* 加入 shimmer */
+.timeline-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    animation: shimmer 2.5s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+       .timeline-bar {
+             position: absolute;
+             top: 0;
+             bottom: 0;
+             border-radius: 5px;
+             background: linear-gradient(90deg, var(--primary), #7DD3FC);
+             box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
         .timeline-bar::after {
             content: '';
             position: absolute;
@@ -615,6 +652,7 @@
     </style>
 </head>
 <body>
+
 <div class="container">
     <!-- 頂部標題 -->
     <div class="header">
@@ -624,8 +662,10 @@
         </div>
         <button class="today-jump-btn" onclick="jumpToToday()">📍 跳去今日</button>
     </div>
+
     <!-- 按同事篩選橫條 -->
     <div class="staff-filter-bar" id="staffFilterBar"></div>
+
     <!-- 11月互動月曆 -->
     <div class="calendar-card">
         <div class="cal-legend">
@@ -646,6 +686,7 @@
         </div>
         <div class="days-grid" id="daysGrid"></div>
     </div>
+
     <!-- 當日返工詳情看板 -->
     <div class="detail-card" id="detailCard">
         <div class="detail-nav-header">
@@ -656,6 +697,7 @@
             </div>
             <button class="nav-day-btn" onclick="stepDay(1)">後一日 ▶️</button>
         </div>
+
         <!-- 營友動態與當晚值夜 -->
         <div class="info-boxes">
             <div class="info-panel">
@@ -667,6 +709,7 @@
                 <div class="info-value" id="overnightStaffText">--</div>
             </div>
         </div>
+
         <!-- 返工同工時間列表 -->
         <div class="staff-list-header">
             <span>🕒 返工同工及確切時間 (按返工時間排序)</span>
@@ -675,6 +718,7 @@
         <div class="staff-list" id="staffListContainer"></div>
     </div>
 </div>
+
 <script>
     // 同事專屬配色
     const STAFF_COLORS = {
@@ -686,7 +730,9 @@
         "伍嘉賢": "#FBBF24",
         "楊卓岐": "#FB923C"
     };
+
     const ALL_STAFF = ["全部", "陳鎵榮", "楊世明", "徐妤霖", "陳浩賓", "梁穎琳", "伍嘉賢", "楊卓岐"];
+
     // 2026年11月 銀礦灣營每日返工人員及詳細時間表 100% 完整資料庫
     const SCHEDULE_NOV_2026 = {
         1: {
@@ -1025,8 +1071,10 @@
             ]
         }
     };
+
     let selectedDay = 8; // 預設今日
     let selectedStaffFilter = "全部";
+
     window.onload = () => {
         const now = new Date();
         if (now.getMonth() === 10) { // 11月 (0-indexed = 10)
@@ -1038,12 +1086,14 @@
         renderCalendar();
         renderDayDetails();
     };
+
     function jumpToToday() {
         const now = new Date();
         selectedDay = (now.getMonth() === 10) ? now.getDate() : 8;
         renderCalendar();
         renderDayDetails();
     }
+
     function stepDay(delta) {
         selectedDay += delta;
         if (selectedDay < 1) selectedDay = 30;
@@ -1051,6 +1101,7 @@
         renderCalendar();
         renderDayDetails();
     }
+
     function renderStaffFilterBar() {
         const bar = document.getElementById('staffFilterBar');
         bar.innerHTML = '';
@@ -1076,44 +1127,55 @@
             bar.appendChild(chip);
         });
     }
+
     function renderCalendar() {
         const grid = document.getElementById('daysGrid');
         grid.innerHTML = '';
+
         // 2026年11月1日係星期日 (firstDay = 0)
         const now = new Date();
         const todayNum = (now.getMonth() === 10) ? now.getDate() : -1;
+
         for (let d = 1; d <= 30; d++) {
             const data = SCHEDULE_NOV_2026[d];
             const btn = document.createElement('button');
+
             const isSelected = (d === selectedDay);
             const isToday = (d === todayNum);
             const meWorking = data.staff.some(s => s.name === "陳鎵榮");
             const meOvernight = data.overnight.includes("陳鎵榮");
+
             let filterClass = '';
             if (selectedStaffFilter !== "全部") {
                 const match = data.staff.some(s => s.name === selectedStaffFilter);
                 filterClass = match ? 'staff-match' : 'dimmed';
             }
+
             btn.className = `day-btn ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${filterClass}`;
+
             let indicatorHtml = '';
             if (meOvernight) {
                 indicatorHtml = `<span class="me-night-indicator">🌙</span>`;
             } else if (meWorking) {
                 indicatorHtml = `<span class="me-indicator"></span>`;
             }
+
             btn.innerHTML = `
                 ${indicatorHtml}
                 <span class="d-num">${d}</span>
                 <span class="d-count">${data.staff.length}人</span>
             `;
+
             btn.onclick = () => {
                 selectedDay = d;
                 renderCalendar();
                 renderDayDetails();
             };
+
             grid.appendChild(btn);
         }
     }
+
     // 計算時間軸位置 (以 08:00 為 0%，24:00 為 100%，共 16 小時)
     function calcTimelinePos(timeRange) {
         const [startStr, endStr] = timeRange.split('-');
@@ -1124,26 +1186,34 @@
         let s = toHour(startStr);
         let e = toHour(endStr);
         if (e === 0) e = 24; // 00:00 視為 24:00
+
         const leftPct = Math.max(0, ((s - 8) / 16) * 100);
         const widthPct = Math.min(100 - leftPct, ((e - s) / 16) * 100);
         return { leftPct, widthPct, hours: e - s };
     }
+
     function renderDayDetails() {
         const data = SCHEDULE_NOV_2026[selectedDay];
         document.getElementById('detailDateText').innerText = `11月${selectedDay}日 (星期${data.dow})`;
         document.getElementById('detailCountSubtitle').innerText = `當日共 ${data.staff.length} 位同工返工`;
+
         document.getElementById('campActivityText').innerText = data.camp;
         document.getElementById('overnightStaffText').innerText =
             data.overnight.length > 0 ? `🌙 ${data.overnight.join('、')}` : '— 無人值夜';
+
         const listEl = document.getElementById('staffListContainer');
         listEl.innerHTML = '';
+
         data.staff.forEach(person => {
             const isMe = (person.name === "陳鎵榮");
             const isOvernight = person.stay || data.overnight.includes(person.name);
             const { leftPct, widthPct, hours } = calcTimelinePos(person.time);
+
             const row = document.createElement('div');
             row.className = `staff-row ${isMe ? 'is-me' : ''} ${isOvernight ? 'is-overnight' : ''}`;
+
             const color = STAFF_COLORS[person.name] || '#38BDF8';
+
             let badgesHtml = '';
             if (isMe) {
                 badgesHtml += `<span class="badge-tag badge-me">你本人</span>`;
@@ -1153,6 +1223,7 @@
             } else {
                 badgesHtml += `<span class="badge-tag badge-shift">${hours}小時</span>`;
             }
+
             row.innerHTML = `
                 <div class="staff-row-top">
                     <div class="staff-name-box">
@@ -1181,5 +1252,6 @@
         });
     }
 </script>
+
 </body>
 </html>

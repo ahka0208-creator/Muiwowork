@@ -108,6 +108,56 @@
             background: rgba(56, 189, 248, 0.3);
         }
 
+        /* ========== Month Switcher ========== */
+        .month-switcher {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.32);
+            border: 1px solid var(--border-medium);
+            border-radius: 16px;
+            padding: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+        }
+        .month-tab {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 9px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+        }
+        .month-tab:hover {
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .month-tab.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.24), rgba(56, 189, 248, 0.12));
+            border-color: rgba(56, 189, 248, 0.55);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+        .month-badge {
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+        }
+        .month-tab.active .month-badge {
+            background: rgba(56, 189, 248, 0.25);
+            color: var(--primary);
+        }
+
         /* ========== Staff Filter Bar ========== */
         .staff-filter-bar {
             display: flex;
@@ -212,6 +262,11 @@
             grid-template-columns: repeat(7, minmax(0, 1fr));
             gap: 5px;
         }
+        .day-empty {
+            height: 56px;
+            border-radius: var(--radius-md);
+            background: transparent;
+        }
         .day-btn {
             height: 56px;
             border-radius: var(--radius-md);
@@ -235,9 +290,7 @@
             opacity: 0;
             transition: opacity 0.2s;
         }
-        .day-btn:hover::before {
-            opacity: 1;
-        }
+        .day-btn:hover::before { opacity: 1; }
         .day-btn:hover {
             border-color: var(--border-medium);
             background: rgba(255, 255, 255, 0.05);
@@ -388,7 +441,7 @@
             text-align: center;
         }
         .detail-date-title h3 {
-            font-size: 21px;
+            font-size: 20px;
             font-weight: 900;
             color: #fff;
             letter-spacing: -0.3px;
@@ -398,7 +451,7 @@
             font-size: 11.5px;
             color: var(--primary);
             font-weight: 700;
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         /* ========== Info Boxes ========== */
@@ -475,6 +528,24 @@
             gap: 10px;
         }
 
+        .empty-state-box {
+            background: rgba(0, 0, 0, 0.24);
+            border: 1px dashed var(--border-medium);
+            border-radius: var(--radius-lg);
+            padding: 26px 16px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+        .empty-state-box strong {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
         .staff-row {
             background: rgba(0, 0, 0, 0.28);
             border: 1px solid var(--border-subtle);
@@ -482,7 +553,7 @@
             padding: 14px 15px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 9px;
             transition: var(--transition-smooth);
             position: relative;
             overflow: hidden;
@@ -508,18 +579,24 @@
             border-left: 4px solid var(--accent-gold);
             background: rgba(251, 191, 36, 0.06);
         }
+        .staff-row.is-filtered {
+            border-color: var(--primary);
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.18);
+        }
 
         .staff-row-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
         }
         .staff-name-box {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex: 1;
             min-width: 0;
+            flex-wrap: wrap;
         }
         .avatar-circle {
             width: 34px;
@@ -562,6 +639,20 @@
             color: var(--text-muted);
             border: 1px solid var(--border-subtle);
         }
+        .staff-note-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            align-self: flex-start;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-purple);
+            background: rgba(192, 132, 252, 0.11);
+            border: 1px solid rgba(192, 132, 252, 0.28);
+            padding: 3px 9px;
+            border-radius: 8px;
+            letter-spacing: 0.2px;
+        }
 
         .staff-time {
             font-size: 15px;
@@ -578,6 +669,24 @@
             color: var(--accent-gold);
         }
 
+        /* ========== Leave Footer ========== */
+        .leave-banner {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 10px 13px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .leave-banner span {
+            color: var(--text-secondary);
+        }
+
         /* ========== Timeline ========== */
         .timeline-wrapper {
             display: flex;
@@ -585,39 +694,24 @@
             gap: 4px;
         }
         .timeline-track {
-    width: 100%;
-    height: 7px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 5px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-/* 加入 shimmer */
-.timeline-track::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    animation: shimmer 2.5s ease-in-out infinite;
-    pointer-events: none;
-}
-@keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-       .timeline-bar {
-             position: absolute;
-             top: 0;
-             bottom: 0;
-             border-radius: 5px;
-             background: linear-gradient(90deg, var(--primary), #7DD3FC);
-             box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
-             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+            width: 100%;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .timeline-bar {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary), #7DD3FC);
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
         .timeline-bar::after {
             content: '';
             position: absolute;
@@ -625,7 +719,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
             animation: shimmer 2.5s ease-in-out infinite;
         }
         @keyframes shimmer {
@@ -658,15 +752,18 @@
     <div class="header">
         <div class="header-left">
             <h2>👥 銀礦灣營 · 每日返工名單</h2>
-            <p>2026年11月 (一撳日期即睇邊個返工)</p>
+            <p id="headerSubtitle">2026年12月 (一撳日期即睇邊個返工)</p>
         </div>
         <button class="today-jump-btn" onclick="jumpToToday()">📍 跳去今日</button>
     </div>
 
+    <!-- 月份切換掣 -->
+    <div class="month-switcher" id="monthSwitcher"></div>
+
     <!-- 按同事篩選橫條 -->
     <div class="staff-filter-bar" id="staffFilterBar"></div>
 
-    <!-- 11月互動月曆 -->
+    <!-- 互動月曆 -->
     <div class="calendar-card">
         <div class="cal-legend">
             <span id="filterHintText">👆 點擊任何一日查看當日返工同工</span>
@@ -692,8 +789,8 @@
         <div class="detail-nav-header">
             <button class="nav-day-btn" onclick="stepDay(-1)">◀️ 前一日</button>
             <div class="detail-date-title">
-                <h3 id="detailDateText">11月1日 (星期日)</h3>
-                <span id="detailCountSubtitle">共 4 位同工返工</span>
+                <h3 id="detailDateText">12月1日 (星期二)</h3>
+                <span id="detailCountSubtitle">當日共 4 位同工返工</span>
             </div>
             <button class="nav-day-btn" onclick="stepDay(1)">後一日 ▶️</button>
         </div>
@@ -716,6 +813,7 @@
             <span>08:00 — 00:00</span>
         </div>
         <div class="staff-list" id="staffListContainer"></div>
+        <div id="leaveContainer"></div>
     </div>
 </div>
 
@@ -733,388 +831,829 @@
 
     const ALL_STAFF = ["全部", "陳鎵榮", "楊世明", "徐妤霖", "陳浩賓", "梁穎琳", "伍嘉賢", "禤卓岐"];
 
-    // 2026年11月 銀礦灣營每日返工人員及詳細時間表 100% 完整資料庫
-    const SCHEDULE_NOV_2026 = {
-        1: {
-            dow: "日",
-            camp: "出: 130+16+12 ｜ 日營: 40人",
-            overnight: [],
-            staff: [
-                { name: "楊世明", time: "08:00-14:00", stay: false },
-                { name: "徐妤霖", time: "08:00-16:00", stay: false },
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
-            ]
+    // 支援月份清單與結構設定
+    const MONTHS_META = {
+        "2026-11": { year: 2026, month: 11, label: "2026年11月", days: 30, firstDay: 0 },
+        "2026-12": { year: 2026, month: 12, label: "2026年12月", days: 31, firstDay: 2 }
+    };
+    const MONTH_KEYS = Object.keys(MONTHS_META);
+
+    // 2026年11月 及 12月 銀礦灣營每日返工人員完整資料庫
+    const SCHEDULE_DATA = {
+        "2026-11": {
+            1: {
+                dow: "日",
+                camp: "出: 130+16+12 ｜ 日營: 40人",
+                overnight: [],
+                staff: [
+                    { name: "楊世明", time: "08:00-14:00", stay: false },
+                    { name: "徐妤霖", time: "08:00-16:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            2: {
+                dow: "一",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false }
+                ]
+            },
+            3: {
+                dow: "二",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "楊世明", time: "09:00-17:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            4: {
+                dow: "三",
+                camp: "入: 84+96 ｜ 日營: 60+100",
+                overnight: ["禤卓岐", "梁穎琳"],
+                staff: [
+                    { name: "楊世明", time: "09:00-17:00", stay: false },
+                    { name: "梁穎琳", time: "09:00-00:00", stay: true },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-00:00", stay: true },
+                    { name: "陳鎵榮", time: "10:00-22:00", stay: false }
+                ]
+            },
+            5: {
+                dow: "四",
+                camp: "留營: 84+96",
+                overnight: ["禤卓岐", "楊世明"],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-00:00", stay: true },
+                    { name: "楊世明", time: "08:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            6: {
+                dow: "五",
+                camp: "出: 84+96 ｜ 入營: 180人",
+                overnight: ["徐妤霖", "梁穎琳"],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-14:00", stay: false },
+                    { name: "楊世明", time: "08:00-18:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-22:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "14:00-00:00", stay: true }
+                ]
+            },
+            7: {
+                dow: "六",
+                camp: "出: 180 ｜ 日: 40 ｜ 入營: 66+48",
+                overnight: ["徐妤霖", "梁穎琳"],
+                staff: [
+                    { name: "徐妤霖", time: "08:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "08:00-00:00", stay: true },
+                    { name: "陳浩賓", time: "10:00-22:00", stay: false }
+                ]
+            },
+            8: {
+                dow: "日",
+                camp: "出: 66+48 ｜ 入營: 180人",
+                overnight: ["伍嘉賢", "禤卓岐"],
+                staff: [
+                    { name: "徐妤霖", time: "08:00-14:00", stay: false },
+                    { name: "梁穎琳", time: "08:00-16:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-00:00", stay: true },
+                    { name: "禤卓岐", time: "10:00-00:00", stay: true },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-22:00", stay: false },
+                    { name: "陳鎵榮", time: "14:00-22:00", stay: false }
+                ]
+            },
+            9: {
+                dow: "一",
+                camp: "留營: 180人",
+                overnight: ["伍嘉賢", "禤卓岐"],
+                staff: [
+                    { name: "伍嘉賢", time: "08:00-00:00", stay: true },
+                    { name: "禤卓岐", time: "08:00-00:00", stay: true },
+                    { name: "陳浩賓", time: "10:00-22:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            10: {
+                dow: "二",
+                camp: "出: 180 ｜ 日: 50 ｜ 入營: 116人",
+                overnight: ["伍嘉賢", "梁穎琳"],
+                staff: [
+                    { name: "伍嘉賢", time: "08:00-00:00", stay: true },
+                    { name: "禤卓岐", time: "08:00-14:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "14:00-00:00", stay: true }
+                ]
+            },
+            11: {
+                dow: "三",
+                camp: "留營: 116人",
+                overnight: ["楊世明", "陳浩賓"],
+                staff: [
+                    { name: "伍嘉賢", time: "08:00-14:00", stay: false },
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "楊世明", time: "10:00-00:00", stay: true },
+                    { name: "陳鎵榮", time: "10:00-22:00", stay: false },
+                    { name: "陳浩賓", time: "14:00-00:00", stay: true }
+                ]
+            },
+            12: {
+                dow: "四",
+                camp: "出: 116 ｜ 入營: 32+8",
+                overnight: ["楊世明", "徐妤霖"],
+                staff: [
+                    { name: "楊世明", time: "08:00-00:00", stay: true },
+                    { name: "陳浩賓", time: "08:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "14:00-00:00", stay: true }
+                ]
+            },
+            13: {
+                dow: "五",
+                camp: "出: 32 ｜ 留: 8 ｜ 日: 40 ｜ 入: 60",
+                overnight: ["徐妤霖"],
+                staff: [
+                    { name: "楊世明", time: "08:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "08:00-00:00", stay: true },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false }
+                ]
+            },
+            14: {
+                dow: "六",
+                camp: "出: 60+8 ｜ 日營: 40人",
+                overnight: ["梁穎琳"],
+                staff: [
+                    { name: "徐妤霖", time: "08:00-20:00", stay: false },
+                    { name: "伍嘉賢", time: "09:00-14:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-22:00", stay: false },
+                    { name: "梁穎琳", time: "18:00-00:00", stay: true }
+                ]
+            },
+            15: {
+                dow: "日",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "伍嘉賢", time: "09:00-16:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            16: {
+                dow: "一",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "楊世明", time: "09:00-17:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false }
+                ]
+            },
+            17: {
+                dow: "二",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "伍嘉賢", time: "14:00-18:00", stay: false }
+                ]
+            },
+            18: {
+                dow: "三",
+                camp: "入營: 134人",
+                overnight: ["徐妤霖", "陳浩賓"],
+                staff: [
+                    { name: "徐妤霖", time: "10:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "14:00-00:00", stay: true }
+                ]
+            },
+            19: {
+                dow: "四",
+                camp: "留營: 134人",
+                overnight: ["禤卓岐", "陳鎵榮"],
+                staff: [
+                    { name: "陳浩賓", time: "08:00-14:00", stay: false },
+                    { name: "徐妤霖", time: "08:00-14:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-14:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-00:00", stay: true },
+                    { name: "陳鎵榮", time: "10:00-00:00", stay: true }
+                ]
+            },
+            20: {
+                dow: "五",
+                camp: "出: 134 ｜ 入營: 144人",
+                overnight: ["梁穎琳", "楊世明"],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "08:00-22:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-00:00", stay: true },
+                    { name: "楊世明", time: "14:00-00:00", stay: true }
+                ]
+            },
+            21: {
+                dow: "六",
+                camp: "出: 144 ｜ 日: 40+20 ｜ 入: 30+12人",
+                overnight: ["楊世明", "禤卓岐"],
+                staff: [
+                    { name: "楊世明", time: "08:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "08:00-22:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-22:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-22:00", stay: false },
+                    { name: "禤卓岐", time: "14:00-00:00", stay: true }
+                ]
+            },
+            22: {
+                dow: "日",
+                camp: "出: 30+12 ｜ 日營: 40人",
+                overnight: [],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-14:00", stay: false },
+                    { name: "楊世明", time: "08:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-16:00", stay: false }
+                ]
+            },
+            23: {
+                dow: "一",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "楊世明", time: "09:00-17:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            24: {
+                dow: "二",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false }
+                ]
+            },
+            25: {
+                dow: "三",
+                camp: "入營: 35+21人",
+                overnight: ["徐妤霖"],
+                staff: [
+                    { name: "伍嘉賢", time: "09:00-17:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-22:00", stay: false },
+                    { name: "楊世明", time: "10:00-22:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "10:00-22:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-22:00", stay: false }
+                ]
+            },
+            26: {
+                dow: "四",
+                camp: "留營: 35+21人",
+                overnight: ["陳浩賓", "梁穎琳"],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-00:00", stay: false },
+                    { name: "徐妤霖", time: "08:00-16:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-16:00", stay: false },
+                    { name: "陳浩賓", time: "14:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "14:00-00:00", stay: true }
+                ]
+            },
+            27: {
+                dow: "五",
+                camp: "出: 35+21 ｜ 入營: 40人",
+                overnight: ["徐妤霖"],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-14:00", stay: false },
+                    { name: "陳浩賓", time: "08:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-14:00", stay: false },
+                    { name: "徐妤霖", time: "14:00-00:00", stay: true }
+                ]
+            },
+            28: {
+                dow: "六",
+                camp: "出: 40 ｜ 日: 30 ｜ 入: 50+42+80+7",
+                overnight: ["陳鎵榮", "梁穎琳"],
+                staff: [
+                    { name: "徐妤霖", time: "08:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "14:00-00:00", stay: true }
+                ]
+            },
+            29: {
+                dow: "日",
+                camp: "出營: 50+42+80+7",
+                overnight: [],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-17:00", stay: false },
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "陳鎵榮", time: "08:00-14:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false }
+                ]
+            },
+            30: {
+                dow: "一",
+                camp: "營期空檔",
+                overnight: [],
+                staff: [
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false }
+                ]
+            }
         },
-        2: {
-            dow: "一",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "陳浩賓", time: "10:00-18:00", stay: false }
-            ]
-        },
-        3: {
-            dow: "二",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "楊世明", time: "09:00-17:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
-            ]
-        },
-        4: {
-            dow: "三",
-            camp: "入: 84+96 ｜ 日營: 60+100",
-            overnight: ["禤卓岐", "梁穎琳"],
-            staff: [
-                { name: "楊世明", time: "09:00-17:00", stay: false },
-                { name: "梁穎琳", time: "09:00-00:00", stay: true },
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
-                { name: "禤卓岐", time: "10:00-00:00", stay: true },
-                { name: "陳鎵榮", time: "10:00-22:00", stay: false }
-            ]
-        },
-        5: {
-            dow: "四",
-            camp: "留營: 84+96",
-            overnight: ["禤卓岐", "楊世明"],
-            staff: [
-                { name: "禤卓岐", time: "08:00-00:00", stay: true },
-                { name: "楊世明", time: "08:00-00:00", stay: true },
-                { name: "梁穎琳", time: "08:00-14:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "徐妤霖", time: "10:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
-            ]
-        },
-        6: {
-            dow: "五",
-            camp: "出: 84+96 ｜ 入營: 180人",
-            overnight: ["徐妤霖", "梁穎琳"],
-            staff: [
-                { name: "禤卓岐", time: "08:00-14:00", stay: false },
-                { name: "楊世明", time: "08:00-18:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
-                { name: "陳浩賓", time: "10:00-22:00", stay: false },
-                { name: "徐妤霖", time: "10:00-00:00", stay: true },
-                { name: "梁穎琳", time: "14:00-00:00", stay: true }
-            ]
-        },
-        7: {
-            dow: "六",
-            camp: "出: 180 ｜ 日: 40 ｜ 入營: 66+48",
-            overnight: ["徐妤霖", "梁穎琳"],
-            staff: [
-                { name: "徐妤霖", time: "08:00-00:00", stay: true },
-                { name: "梁穎琳", time: "08:00-00:00", stay: true },
-                { name: "陳浩賓", time: "10:00-22:00", stay: false }
-            ]
-        },
-        8: {
-            dow: "日",
-            camp: "出: 66+48 ｜ 入營: 180人",
-            overnight: ["伍嘉賢", "禤卓岐"],
-            staff: [
-                { name: "徐妤霖", time: "08:00-14:00", stay: false },
-                { name: "梁穎琳", time: "08:00-16:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-00:00", stay: true },
-                { name: "禤卓岐", time: "10:00-00:00", stay: true },
-                { name: "楊世明", time: "10:00-18:00", stay: false },
-                { name: "陳浩賓", time: "10:00-22:00", stay: false },
-                { name: "陳鎵榮", time: "14:00-22:00", stay: false }
-            ]
-        },
-        9: {
-            dow: "一",
-            camp: "留營: 180人",
-            overnight: ["伍嘉賢", "禤卓岐"],
-            staff: [
-                { name: "伍嘉賢", time: "08:00-00:00", stay: true },
-                { name: "禤卓岐", time: "08:00-00:00", stay: true },
-                { name: "陳浩賓", time: "10:00-22:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
-            ]
-        },
-        10: {
-            dow: "二",
-            camp: "出: 180 ｜ 日: 50 ｜ 入營: 116人",
-            overnight: ["伍嘉賢", "梁穎琳"],
-            staff: [
-                { name: "伍嘉賢", time: "08:00-00:00", stay: true },
-                { name: "禤卓岐", time: "08:00-14:00", stay: false },
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "徐妤霖", time: "10:00-18:00", stay: false },
-                { name: "梁穎琳", time: "14:00-00:00", stay: true }
-            ]
-        },
-        11: {
-            dow: "三",
-            camp: "留營: 116人",
-            overnight: ["楊世明", "陳浩賓"],
-            staff: [
-                { name: "伍嘉賢", time: "08:00-14:00", stay: false },
-                { name: "梁穎琳", time: "08:00-14:00", stay: false },
-                { name: "楊世明", time: "10:00-00:00", stay: true },
-                { name: "陳鎵榮", time: "10:00-22:00", stay: false },
-                { name: "陳浩賓", time: "14:00-00:00", stay: true }
-            ]
-        },
-        12: {
-            dow: "四",
-            camp: "出: 116 ｜ 入營: 32+8",
-            overnight: ["楊世明", "徐妤霖"],
-            staff: [
-                { name: "楊世明", time: "08:00-00:00", stay: true },
-                { name: "陳浩賓", time: "08:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-18:00", stay: false },
-                { name: "徐妤霖", time: "14:00-00:00", stay: true }
-            ]
-        },
-        13: {
-            dow: "五",
-            camp: "出: 32 ｜ 留: 8 ｜ 日: 40 ｜ 入: 60",
-            overnight: ["徐妤霖"],
-            staff: [
-                { name: "楊世明", time: "08:00-18:00", stay: false },
-                { name: "徐妤霖", time: "08:00-00:00", stay: true },
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false }
-            ]
-        },
-        14: {
-            dow: "六",
-            camp: "出: 60+8 ｜ 日營: 40人",
-            overnight: ["梁穎琳"],
-            staff: [
-                { name: "徐妤霖", time: "08:00-20:00", stay: false },
-                { name: "伍嘉賢", time: "09:00-14:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-22:00", stay: false },
-                { name: "梁穎琳", time: "18:00-00:00", stay: true }
-            ]
-        },
-        15: {
-            dow: "日",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "梁穎琳", time: "08:00-14:00", stay: false },
-                { name: "伍嘉賢", time: "09:00-16:00", stay: false },
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
-            ]
-        },
-        16: {
-            dow: "一",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "楊世明", time: "09:00-17:00", stay: false },
-                { name: "陳浩賓", time: "10:00-18:00", stay: false }
-            ]
-        },
-        17: {
-            dow: "二",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "徐妤霖", time: "10:00-18:00", stay: false },
-                { name: "伍嘉賢", time: "14:00-18:00", stay: false }
-            ]
-        },
-        18: {
-            dow: "三",
-            camp: "入營: 134人",
-            overnight: ["徐妤霖", "陳浩賓"],
-            staff: [
-                { name: "徐妤霖", time: "10:00-00:00", stay: true },
-                { name: "梁穎琳", time: "10:00-18:00", stay: false },
-                { name: "陳浩賓", time: "14:00-00:00", stay: true }
-            ]
-        },
-        19: {
-            dow: "四",
-            camp: "留營: 134人",
-            overnight: ["禤卓岐", "陳鎵榮"],
-            staff: [
-                { name: "陳浩賓", time: "08:00-14:00", stay: false },
-                { name: "徐妤霖", time: "08:00-14:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-14:00", stay: false },
-                { name: "禤卓岐", time: "10:00-00:00", stay: true },
-                { name: "陳鎵榮", time: "10:00-00:00", stay: true }
-            ]
-        },
-        20: {
-            dow: "五",
-            camp: "出: 134 ｜ 入營: 144人",
-            overnight: ["梁穎琳", "楊世明"],
-            staff: [
-                { name: "禤卓岐", time: "08:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "08:00-22:00", stay: false },
-                { name: "梁穎琳", time: "10:00-00:00", stay: true },
-                { name: "楊世明", time: "14:00-00:00", stay: true }
-            ]
-        },
-        21: {
-            dow: "六",
-            camp: "出: 144 ｜ 日: 40+20 ｜ 入: 30+12人",
-            overnight: ["楊世明", "禤卓岐"],
-            staff: [
-                { name: "楊世明", time: "08:00-00:00", stay: true },
-                { name: "梁穎琳", time: "08:00-22:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-22:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-22:00", stay: false },
-                { name: "禤卓岐", time: "14:00-00:00", stay: true }
-            ]
-        },
-        22: {
-            dow: "日",
-            camp: "出: 30+12 ｜ 日營: 40人",
-            overnight: [],
-            staff: [
-                { name: "禤卓岐", time: "08:00-14:00", stay: false },
-                { name: "楊世明", time: "08:00-18:00", stay: false },
-                { name: "梁穎琳", time: "08:00-14:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "徐妤霖", time: "10:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-16:00", stay: false }
-            ]
-        },
-        23: {
-            dow: "一",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "楊世明", time: "09:00-17:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-18:00", stay: false }
-            ]
-        },
-        24: {
-            dow: "二",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "徐妤霖", time: "10:00-18:00", stay: false }
-            ]
-        },
-        25: {
-            dow: "三",
-            camp: "入營: 35+21人",
-            overnight: ["徐妤霖"],
-            staff: [
-                { name: "伍嘉賢", time: "09:00-17:00", stay: false },
-                { name: "禤卓岐", time: "10:00-22:00", stay: false },
-                { name: "楊世明", time: "10:00-22:00", stay: false },
-                { name: "徐妤霖", time: "10:00-00:00", stay: true },
-                { name: "梁穎琳", time: "10:00-22:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-22:00", stay: false }
-            ]
-        },
-        26: {
-            dow: "四",
-            camp: "留營: 35+21人",
-            overnight: ["陳浩賓", "梁穎琳"],
-            staff: [
-                { name: "禤卓岐", time: "08:00-00:00", stay: false },
-                { name: "徐妤霖", time: "08:00-16:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false },
-                { name: "楊世明", time: "10:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-16:00", stay: false },
-                { name: "陳浩賓", time: "14:00-00:00", stay: true },
-                { name: "梁穎琳", time: "14:00-00:00", stay: true }
-            ]
-        },
-        27: {
-            dow: "五",
-            camp: "出: 35+21 ｜ 入營: 40人",
-            overnight: ["徐妤霖"],
-            staff: [
-                { name: "禤卓岐", time: "08:00-14:00", stay: false },
-                { name: "陳浩賓", time: "08:00-18:00", stay: false },
-                { name: "梁穎琳", time: "08:00-14:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-14:00", stay: false },
-                { name: "徐妤霖", time: "14:00-00:00", stay: true }
-            ]
-        },
-        28: {
-            dow: "六",
-            camp: "出: 40 ｜ 日: 30 ｜ 入: 50+42+80+7",
-            overnight: ["陳鎵榮", "梁穎琳"],
-            staff: [
-                { name: "徐妤霖", time: "08:00-18:00", stay: false },
-                { name: "陳鎵榮", time: "10:00-00:00", stay: true },
-                { name: "梁穎琳", time: "14:00-00:00", stay: true }
-            ]
-        },
-        29: {
-            dow: "日",
-            camp: "出營: 50+42+80+7",
-            overnight: [],
-            staff: [
-                { name: "禤卓岐", time: "08:00-17:00", stay: false },
-                { name: "梁穎琳", time: "08:00-14:00", stay: false },
-                { name: "陳鎵榮", time: "08:00-14:00", stay: false },
-                { name: "伍嘉賢", time: "10:00-18:00", stay: false }
-            ]
-        },
-        30: {
-            dow: "一",
-            camp: "營期空檔",
-            overnight: [],
-            staff: [
-                { name: "陳浩賓", time: "10:00-18:00", stay: false },
-                { name: "梁穎琳", time: "10:00-18:00", stay: false }
-            ]
+        "2026-12": {
+            1: {
+                dow: "二",
+                camp: "營期空檔",
+                overnight: [],
+                leave: ["伍嘉賢 (AL)", "禤卓岐 (AL)"],
+                staff: [
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            2: {
+                dow: "三",
+                camp: "日營: 50 ｜ 入營: 4+72",
+                overnight: ["禤卓岐"],
+                leave: ["陳浩賓 (AL)"],
+                staff: [
+                    { name: "伍嘉賢", time: "09:00-17:00", stay: false, note: "外出｜ERB課程@彩雲" },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-22:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-00:00", stay: true }
+                ]
+            },
+            3: {
+                dow: "四",
+                camp: "日: 40 ｜ 留: 4+72 ｜ 入: 56",
+                overnight: ["楊世明", "徐妤霖"],
+                leave: [],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-16:00", stay: false },
+                    { name: "伍嘉賢", time: "09:00-17:00", stay: false, note: "外出｜ERB課程@彩雲" },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false },
+                    { name: "楊世明", time: "10:00-00:00", stay: true },
+                    { name: "徐妤霖", time: "10:00-00:00", stay: true }
+                ]
+            },
+            4: {
+                dow: "五",
+                camp: "出: 4+56+72 ｜ 黃昏營: 40人",
+                overnight: [],
+                leave: ["禤卓岐 (AL)"],
+                staff: [
+                    { name: "楊世明", time: "08:00-16:00", stay: false },
+                    { name: "徐妤霖", time: "08:00-18:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "14:00-22:00", stay: false }
+                ]
+            },
+            5: {
+                dow: "六",
+                camp: "入營: 10人",
+                overnight: ["梁穎琳"],
+                leave: [],
+                staff: [
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "14:00-00:00", stay: true }
+                ]
+            },
+            6: {
+                dow: "日",
+                camp: "出營: 10人",
+                overnight: [],
+                leave: [],
+                staff: [
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false }
+                ]
+            },
+            7: {
+                dow: "一",
+                camp: "營期空檔",
+                overnight: [],
+                leave: [],
+                staff: [
+                    { name: "伍嘉賢", time: "09:00-17:00", stay: false, note: "外出｜ERB課程@彩雲" },
+                    { name: "陳浩賓", time: "10:00-14:00", stay: false, note: "外出工作" },
+                    { name: "禤卓岐", time: "10:00-18:00", stay: false },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false }
+                ]
+            },
+            8: {
+                dow: "二",
+                camp: "營期空檔",
+                overnight: [],
+                leave: ["陳浩賓 (AL)"],
+                staff: [
+                    { name: "伍嘉賢", time: "10:00-12:00", stay: false, note: "外出｜內檢會議@HQ (下午CL)" },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            9: {
+                dow: "三",
+                camp: "營期空檔",
+                overnight: [],
+                leave: [],
+                staff: [
+                    { name: "伍嘉賢", time: "09:00-17:00", stay: false, note: "外出｜ERB課程@彩雲" },
+                    { name: "禤卓岐", time: "10:00-18:00", stay: false },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            10: {
+                dow: "四",
+                camp: "營期空檔",
+                overnight: [],
+                leave: [],
+                staff: [
+                    { name: "伍嘉賢", time: "09:00-17:00", stay: false, note: "外出｜ERB課程@彩雲" },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            11: {
+                dow: "五",
+                camp: "營期空檔",
+                overnight: [],
+                leave: [],
+                staff: [
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            12: {
+                dow: "六",
+                camp: "入營: 46人",
+                overnight: ["禤卓岐"],
+                leave: [],
+                staff: [
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "14:00-00:00", stay: true }
+                ]
+            },
+            13: {
+                dow: "日",
+                camp: "出營: 46人",
+                overnight: [],
+                leave: [],
+                staff: [
+                    { name: "禤卓岐", time: "08:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-14:00", stay: false, note: "外出｜獨木舟仝人大會" }
+                ]
+            },
+            14: {
+                dow: "一",
+                camp: "營期空檔",
+                overnight: [],
+                leave: ["陳浩賓 (AL)"],
+                staff: [
+                    { name: "伍嘉賢", time: "09:00-18:00", stay: false, note: "外出｜ERB課程@佐敦" },
+                    { name: "禤卓岐", time: "10:00-18:00", stay: false, note: "外出｜彩德探營(SMB及TUC)" },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            15: {
+                dow: "二",
+                camp: "營期空檔",
+                overnight: [],
+                leave: ["陳浩賓 (AL)"],
+                staff: [
+                    { name: "禤卓岐", time: "10:00-12:00", stay: false, note: "外出｜探訪彩德中心" },
+                    { name: "楊世明", time: "10:00-12:00", stay: false, note: "外出｜探訪彩德中心" },
+                    { name: "徐妤霖", time: "10:00-12:00", stay: false, note: "外出｜探訪彩德中心" },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false, note: "14:00會議｜Campsite Plus" },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false, note: "上午外出｜探訪彩德中心" },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false, note: "上午外出｜探訪彩德中心" }
+                ]
+            },
+            16: {
+                dow: "三",
+                camp: "營期空檔",
+                overnight: [],
+                leave: ["伍嘉賢 (AL)", "陳浩賓 (AL)"],
+                staff: [
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false }
+                ]
+            },
+            17: {
+                dow: "四",
+                camp: "入營: 114人",
+                overnight: ["禤卓岐", "梁穎琳"],
+                leave: ["陳浩賓 (AL)"],
+                staff: [
+                    { name: "楊世明", time: "10:00-14:00", stay: false, note: "10-14會議" },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false, note: "10-14會議" },
+                    { name: "徐妤霖", time: "10:00-18:00", stay: false, note: "10-14會議" },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false, note: "10-14會議" },
+                    { name: "禤卓岐", time: "10:00-00:00", stay: true, note: "10-14會議" },
+                    { name: "梁穎琳", time: "10:00-00:00", stay: true, note: "10-14會議" }
+                ]
+            },
+            18: {
+                dow: "五",
+                camp: "出: 114 ｜ 入營: 36+24",
+                overnight: ["徐妤霖"],
+                leave: ["陳浩賓 (AL)"],
+                staff: [
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "禤卓岐", time: "08:00-18:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-00:00", stay: true }
+                ]
+            },
+            19: {
+                dow: "六",
+                camp: "留: 36+24 ｜ 入營: 68+24",
+                overnight: ["陳浩賓", "徐妤霖"],
+                leave: [],
+                staff: [
+                    { name: "徐妤霖", time: "08:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "楊世明", time: "14:00-22:00", stay: false },
+                    { name: "陳浩賓", time: "14:00-00:00", stay: true, note: "訓練營帶領" }
+                ]
+            },
+            20: {
+                dow: "日",
+                camp: "出營: 36+24+68+24",
+                overnight: [],
+                leave: [],
+                staff: [
+                    { name: "陳浩賓", time: "08:00-14:00", stay: false, note: "訓練營帶領" },
+                    { name: "徐妤霖", time: "08:00-14:00", stay: false },
+                    { name: "楊世明", time: "10:00-18:00", stay: false }
+                ]
+            },
+            21: {
+                dow: "一",
+                camp: "入營: 18+4",
+                overnight: ["楊世明"],
+                leave: [],
+                staff: [
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-22:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-22:00", stay: false },
+                    { name: "楊世明", time: "10:00-00:00", stay: true }
+                ]
+            },
+            22: {
+                dow: "二",
+                camp: "出: 18+4 ｜ 入: 30 ｜ 日: 20",
+                overnight: ["陳浩賓"],
+                leave: [],
+                staff: [
+                    { name: "楊世明", time: "08:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-16:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-00:00", stay: true, note: "訓練營帶領" }
+                ]
+            },
+            23: {
+                dow: "三",
+                camp: "留: 30 ｜ 入營: 8+44",
+                overnight: ["梁穎琳", "陳鎵榮"],
+                leave: [],
+                staff: [
+                    { name: "陳浩賓", time: "08:00-18:00", stay: false, note: "訓練營帶領" },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-22:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "14:00-00:00", stay: true, note: "訓練營帶領" }
+                ]
+            },
+            24: {
+                dow: "四",
+                camp: "出: 44+8+44 ｜ 入營: 32人",
+                overnight: ["徐妤霖"],
+                leave: ["伍嘉賢 (AL)"],
+                staff: [
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "陳鎵榮", time: "08:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-18:00", stay: false },
+                    { name: "楊世明", time: "10:00-18:00", stay: false },
+                    { name: "徐妤霖", time: "14:00-00:00", stay: true }
+                ]
+            },
+            25: {
+                dow: "五",
+                camp: "🎄 聖誕節 ｜ 留: 32 ｜ 入: 16",
+                overnight: ["陳浩賓"],
+                leave: ["伍嘉賢 (AL)", "楊世明 (AL)", "梁穎琳 (AL)"],
+                staff: [
+                    { name: "徐妤霖", time: "08:00-22:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-00:00", stay: true }
+                ]
+            },
+            26: {
+                dow: "六",
+                camp: "🎄 聖誕節翌日 ｜ 出營: 32+16",
+                overnight: [],
+                leave: ["伍嘉賢 (CL)", "楊世明 (AL)", "梁穎琳 (AL)"],
+                staff: [
+                    { name: "陳浩賓", time: "08:00-14:00", stay: false },
+                    { name: "徐妤霖", time: "10:00-14:00", stay: false }
+                ]
+            },
+            27: {
+                dow: "日",
+                camp: "營期空檔（全員休假）",
+                overnight: [],
+                leave: [],
+                staff: []
+            },
+            28: {
+                dow: "一",
+                camp: "入營: 20+16+26",
+                overnight: ["梁穎琳", "陳鎵榮"],
+                leave: ["徐妤霖 (AL)"],
+                staff: [
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "10:00-00:00", stay: true },
+                    { name: "梁穎琳", time: "14:00-00:00", stay: true }
+                ]
+            },
+            29: {
+                dow: "二",
+                camp: "出: 16 ｜ 留: 20+26 ｜ 入: 40",
+                overnight: ["禤卓岐", "陳浩賓"],
+                leave: ["徐妤霖 (AL)"],
+                staff: [
+                    { name: "梁穎琳", time: "08:00-14:00", stay: false },
+                    { name: "陳鎵榮", time: "08:00-18:00", stay: false },
+                    { name: "伍嘉賢", time: "10:00-18:00", stay: false },
+                    { name: "陳浩賓", time: "10:00-00:00", stay: true },
+                    { name: "禤卓岐", time: "14:00-00:00", stay: true }
+                ]
+            },
+            30: {
+                dow: "三",
+                camp: "出: 20+26 ｜ 留: 40 ｜ 入: 4 ｜ 露營: 40",
+                overnight: ["楊世明", "陳鎵榮"],
+                leave: ["徐妤霖 (AL)"],
+                staff: [
+                    { name: "陳浩賓", time: "08:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "08:00-22:00", stay: false },
+                    { name: "伍嘉賢", time: "09:00-15:00", stay: false, note: "外出｜ERB課程@佐敦" },
+                    { name: "梁穎琳", time: "10:00-18:00", stay: false },
+                    { name: "楊世明", time: "10:00-00:00", stay: true },
+                    { name: "陳鎵榮", time: "10:00-00:00", stay: true }
+                ]
+            },
+            31: {
+                dow: "四",
+                camp: "出: 4+40 ｜ 露營: 40",
+                overnight: [],
+                leave: ["伍嘉賢 (CL)", "徐妤霖 (AL)", "梁穎琳 (CL)"],
+                staff: [
+                    { name: "楊世明", time: "08:00-18:00", stay: false },
+                    { name: "陳鎵榮", time: "08:00-18:00", stay: false },
+                    { name: "禤卓岐", time: "10:00-18:00", stay: false }
+                ]
+            }
         }
     };
 
-    let selectedDay = 8; // 預設今日
+    let currentMonthKey = "2026-12";
+    let selectedDay = 1;
     let selectedStaffFilter = "全部";
 
     window.onload = () => {
         const now = new Date();
-        if (now.getMonth() === 10) { // 11月 (0-indexed = 10)
+        const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        if (MONTHS_META[ym]) {
+            currentMonthKey = ym;
+            selectedDay = now.getDate();
+        } else {
+            currentMonthKey = "2026-12";
+            selectedDay = 1;
+        }
+        renderAll();
+    };
+
+    function renderAll() {
+        const meta = MONTHS_META[currentMonthKey];
+        document.getElementById('headerSubtitle').innerText =
+            `${meta.label} (一撳日期即睇邊個返工)`;
+        renderMonthSwitcher();
+        renderStaffFilterBar();
+        renderCalendar();
+        renderDayDetails();
+    }
+
+    function switchMonth(monthKey) {
+        if (!MONTHS_META[monthKey] || monthKey === currentMonthKey) return;
+        currentMonthKey = monthKey;
+        const now = new Date();
+        const meta = MONTHS_META[currentMonthKey];
+        if (now.getFullYear() === meta.year && (now.getMonth() + 1) === meta.month) {
             selectedDay = now.getDate();
         } else {
             selectedDay = 1;
         }
-        renderStaffFilterBar();
-        renderCalendar();
-        renderDayDetails();
-    };
+        renderAll();
+    }
 
     function jumpToToday() {
         const now = new Date();
-        selectedDay = (now.getMonth() === 10) ? now.getDate() : 8;
-        renderCalendar();
-        renderDayDetails();
+        const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        if (MONTHS_META[ym]) {
+            currentMonthKey = ym;
+            selectedDay = now.getDate();
+        } else {
+            currentMonthKey = "2026-12";
+            selectedDay = 1;
+        }
+        renderAll();
     }
 
     function stepDay(delta) {
+        const meta = MONTHS_META[currentMonthKey];
+        const currentIdx = MONTH_KEYS.indexOf(currentMonthKey);
         selectedDay += delta;
-        if (selectedDay < 1) selectedDay = 30;
-        if (selectedDay > 30) selectedDay = 1;
-        renderCalendar();
-        renderDayDetails();
+
+        if (selectedDay < 1) {
+            const prevIdx = (currentIdx - 1 + MONTH_KEYS.length) % MONTH_KEYS.length;
+            currentMonthKey = MONTH_KEYS[prevIdx];
+            selectedDay = MONTHS_META[currentMonthKey].days;
+        } else if (selectedDay > meta.days) {
+            const nextIdx = (currentIdx + 1) % MONTH_KEYS.length;
+            currentMonthKey = MONTH_KEYS[nextIdx];
+            selectedDay = 1;
+        }
+        renderAll();
+    }
+
+    function renderMonthSwitcher() {
+        const container = document.getElementById('monthSwitcher');
+        container.innerHTML = '';
+        MONTH_KEYS.forEach(key => {
+            const meta = MONTHS_META[key];
+            const btn = document.createElement('button');
+            btn.className = `month-tab ${key === currentMonthKey ? 'active' : ''}`;
+            btn.innerHTML = `<span>📅 ${meta.label}</span><span class="month-badge">${meta.days}日</span>`;
+            btn.onclick = () => switchMonth(key);
+            container.appendChild(btn);
+        });
     }
 
     function renderStaffFilterBar() {
         const bar = document.getElementById('staffFilterBar');
+        const monthSchedule = SCHEDULE_DATA[currentMonthKey];
+        const totalDays = MONTHS_META[currentMonthKey].days;
+
         bar.innerHTML = '';
         ALL_STAFF.forEach(name => {
             const chip = document.createElement('button');
             chip.className = `staff-chip ${selectedStaffFilter === name ? 'active' : ''}`;
-            // 計算該同事全月返工日數
             if (name === "全部") {
                 chip.innerText = "👥 全部同工";
             } else {
                 let count = 0;
-                for (let d = 1; d <= 30; d++) {
-                    if (SCHEDULE_NOV_2026[d].staff.some(s => s.name === name)) count++;
+                for (let d = 1; d <= totalDays; d++) {
+                    if (monthSchedule[d].staff.some(s => s.name === name)) count++;
                 }
                 chip.innerText = `${name === '陳鎵榮' ? '⭐ ' : ''}${name} (${count}日)`;
             }
@@ -1130,14 +1669,24 @@
 
     function renderCalendar() {
         const grid = document.getElementById('daysGrid');
+        const meta = MONTHS_META[currentMonthKey];
+        const monthSchedule = SCHEDULE_DATA[currentMonthKey];
         grid.innerHTML = '';
 
-        // 2026年11月1日係星期日 (firstDay = 0)
-        const now = new Date();
-        const todayNum = (now.getMonth() === 10) ? now.getDate() : -1;
+        // 補齊該月 1 號前的空白格
+        for (let i = 0; i < meta.firstDay; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'day-empty';
+            grid.appendChild(emptyCell);
+        }
 
-        for (let d = 1; d <= 30; d++) {
-            const data = SCHEDULE_NOV_2026[d];
+        const now = new Date();
+        const isCurrentRealMonth =
+            now.getFullYear() === meta.year && (now.getMonth() + 1) === meta.month;
+        const todayNum = isCurrentRealMonth ? now.getDate() : -1;
+
+        for (let d = 1; d <= meta.days; d++) {
+            const data = monthSchedule[d];
             const btn = document.createElement('button');
 
             const isSelected = (d === selectedDay);
@@ -1160,10 +1709,12 @@
                 indicatorHtml = `<span class="me-indicator"></span>`;
             }
 
+            const countLabel = data.staff.length > 0 ? `${data.staff.length}人` : '休假';
+
             btn.innerHTML = `
                 ${indicatorHtml}
                 <span class="d-num">${d}</span>
-                <span class="d-count">${data.staff.length}人</span>
+                <span class="d-count">${countLabel}</span>
             `;
 
             btn.onclick = () => {
@@ -1185,7 +1736,7 @@
         };
         let s = toHour(startStr);
         let e = toHour(endStr);
-        if (e === 0) e = 24; // 00:00 視為 24:00
+        if (e === 0) e = 24;
 
         const leftPct = Math.max(0, ((s - 8) / 16) * 100);
         const widthPct = Math.min(100 - leftPct, ((e - s) / 16) * 100);
@@ -1193,9 +1744,13 @@
     }
 
     function renderDayDetails() {
-        const data = SCHEDULE_NOV_2026[selectedDay];
-        document.getElementById('detailDateText').innerText = `11月${selectedDay}日 (星期${data.dow})`;
-        document.getElementById('detailCountSubtitle').innerText = `當日共 ${data.staff.length} 位同工返工`;
+        const meta = MONTHS_META[currentMonthKey];
+        const data = SCHEDULE_DATA[currentMonthKey][selectedDay];
+
+        document.getElementById('detailDateText').innerText =
+            `${meta.month}月${selectedDay}日 (星期${data.dow})`;
+        document.getElementById('detailCountSubtitle').innerText =
+            data.staff.length > 0 ? `當日共 ${data.staff.length} 位同工返工` : '當日無人當值';
 
         document.getElementById('campActivityText').innerText = data.camp;
         document.getElementById('overnightStaffText').innerText =
@@ -1204,52 +1759,78 @@
         const listEl = document.getElementById('staffListContainer');
         listEl.innerHTML = '';
 
-        data.staff.forEach(person => {
-            const isMe = (person.name === "陳鎵榮");
-            const isOvernight = person.stay || data.overnight.includes(person.name);
-            const { leftPct, widthPct, hours } = calcTimelinePos(person.time);
-
-            const row = document.createElement('div');
-            row.className = `staff-row ${isMe ? 'is-me' : ''} ${isOvernight ? 'is-overnight' : ''}`;
-
-            const color = STAFF_COLORS[person.name] || '#38BDF8';
-
-            let badgesHtml = '';
-            if (isMe) {
-                badgesHtml += `<span class="badge-tag badge-me">你本人</span>`;
-            }
-            if (isOvernight) {
-                badgesHtml += `<span class="badge-tag badge-night">🌙 值夜留宿</span>`;
-            } else {
-                badgesHtml += `<span class="badge-tag badge-shift">${hours}小時</span>`;
-            }
-
-            row.innerHTML = `
-                <div class="staff-row-top">
-                    <div class="staff-name-box">
-                        <div class="avatar-circle" style="background:${color};">
-                            ${person.name.slice(-1)}
-                        </div>
-                        <span class="staff-name">${person.name}</span>
-                        ${badgesHtml}
-                    </div>
-                    <div class="staff-time">${person.time}</div>
-                </div>
-                <div class="timeline-wrapper">
-                    <div class="timeline-track">
-                        <div class="timeline-bar" style="left:${leftPct}%; width:${widthPct}%;"></div>
-                    </div>
-                    <div class="timeline-scale">
-                        <span>08:00</span>
-                        <span>12:00</span>
-                        <span>16:00</span>
-                        <span>20:00</span>
-                        <span>00:00</span>
-                    </div>
+        if (data.staff.length === 0) {
+            listEl.innerHTML = `
+                <div class="empty-state-box">
+                    <strong>🏖️ 當日無人當值</strong>
+                    營期空檔，全員休假
                 </div>
             `;
-            listEl.appendChild(row);
-        });
+        } else {
+            data.staff.forEach(person => {
+                const isMe = (person.name === "陳鎵榮");
+                const isOvernight = person.stay || data.overnight.includes(person.name);
+                const isFiltered = (selectedStaffFilter !== "全部" && person.name === selectedStaffFilter);
+                const { leftPct, widthPct, hours } = calcTimelinePos(person.time);
+
+                const row = document.createElement('div');
+                row.className = `staff-row ${isMe ? 'is-me' : ''} ${isOvernight ? 'is-overnight' : ''} ${isFiltered ? 'is-filtered' : ''}`;
+
+                const color = STAFF_COLORS[person.name] || '#38BDF8';
+
+                let badgesHtml = '';
+                if (isMe) {
+                    badgesHtml += `<span class="badge-tag badge-me">你本人</span>`;
+                }
+                if (isOvernight) {
+                    badgesHtml += `<span class="badge-tag badge-night">🌙 值夜留宿</span>`;
+                } else {
+                    badgesHtml += `<span class="badge-tag badge-shift">${hours}小時</span>`;
+                }
+
+                const noteHtml = person.note
+                    ? `<div class="staff-note-pill">📌 ${person.note}</div>`
+                    : '';
+
+                row.innerHTML = `
+                    <div class="staff-row-top">
+                        <div class="staff-name-box">
+                            <div class="avatar-circle" style="background:${color};">
+                                ${person.name.slice(-1)}
+                            </div>
+                            <span class="staff-name">${person.name}</span>
+                            ${badgesHtml}
+                        </div>
+                        <div class="staff-time">${person.time}</div>
+                    </div>
+                    ${noteHtml}
+                    <div class="timeline-wrapper">
+                        <div class="timeline-track">
+                            <div class="timeline-bar" style="left:${leftPct}%; width:${widthPct}%;"></div>
+                        </div>
+                        <div class="timeline-scale">
+                            <span>08:00</span>
+                            <span>12:00</span>
+                            <span>16:00</span>
+                            <span>20:00</span>
+                            <span>00:00</span>
+                        </div>
+                    </div>
+                `;
+                listEl.appendChild(row);
+            });
+        }
+
+        const leaveEl = document.getElementById('leaveContainer');
+        if (data.leave && data.leave.length > 0) {
+            leaveEl.innerHTML = `
+                <div class="leave-banner">
+                    🏖️ 當日休假：<span>${data.leave.join('、')}</span>
+                </div>
+            `;
+        } else {
+            leaveEl.innerHTML = '';
+        }
     }
 </script>
 
